@@ -1,9 +1,7 @@
 //
 // CircleMagic.pde
 // @author Zack M Fleischman
-//
-// @description
-//      An animation of a bunch of circles gettin' all trippy.
+// @description An animation of a bunch of circles gettin' all trippy.
 //
 
 // Dimensions of the Screen
@@ -30,7 +28,7 @@ int _numCirclesPastEdge = 5;
 // Speed at which we cycle the green and blue channels for the circles.
 float _greenOffsetSpeed = 500.0;
 float _blueOffsetSpeed = 350.0;
-float minColorBrightness = 65; // Minimum value for a color channel
+float _minColorBrightness = 65; // Minimum value for a color channel
 
 
 //////////////////////////////
@@ -175,21 +173,21 @@ color getCircleColor(PVector pos, float circleSize)
     float yOffset = (_timeSinceStarted / 1000.0) * _blueOffsetSpeed;
     float x = (pos.x + xOffset) % _screenWidth;
     float y = (pos.y + yOffset) % _screenHeight;
-    
+
     // Calculate Green Channel 
     float green = (x/_screenWidth)*2.0;
     if (green > 1.0) green = 2.0 - green;
-    green *= (255 - minColorBrightness);
-    green %= (255 - minColorBrightness);
-    green += minColorBrightness;
-    
+    green *= (255 - _minColorBrightness);
+    green %= (255 - _minColorBrightness);
+    green += _minColorBrightness;
+
     // Calculate Blue Channel
     float blue = (y/_screenHeight)*2.0;
     if (blue > 1.0) blue = 2.0 - blue;
-    blue *= (255 - minColorBrightness);
-    blue %= (255 - minColorBrightness);
-    blue += minColorBrightness;
-    
+    blue *= (255 - _minColorBrightness);
+    blue %= (255 - _minColorBrightness);
+    blue += _minColorBrightness;
+
     // Red channel is just a function of circle size and separate from the rest.
     float red = 255 - circleSize*10;
 
