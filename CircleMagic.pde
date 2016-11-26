@@ -56,16 +56,13 @@ float _rippleAmplitude = 5;
 float _rippleFrequency = 0.011;
 
 
-///////////////////////////////////////////////////
+//////////////////////////////
 // Time variables
+//////////////////////////////
 int _timeDelta;
 int _timeLastFrame;
 int _timeThisFrame;
 int _timeSinceStarted;
-
-// Constants
-float TWO_PI = 3.14159*2.0;
-///////////////////////////////////////////////////
 
 // Project init
 void setup() 
