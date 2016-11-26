@@ -10,6 +10,10 @@ float _blueOffsetSpeed = 350.0;
 int _defaultCircleSize = 10;
 float _maxSizeOffset = 4;
 
+float _rippleDelay = 1000.0;
+float _rippleAmplitude = 15;  // amplitude
+float _rippleFrequency = 0.011; // frequency
+
 float _xSizeChangeDelay = 700.0;
 float _ySizeChangeDelay = 530.0;
 
@@ -72,20 +76,22 @@ void drawCircle(PVector pos, PVector size, color c)
   ellipse(pos.x, pos.y, size.x, size.y);
 }
 
+// Get position offset from grid position x,y (pixels)
 PVector getCirclePosition(int x, int y)
 {
-  float xPerc = (float)x / WIDTH;
-  float yPerc = (float)y / HEIGHT;
-  float radiansForWidth = (xPerc * TWO_PI) + (_timeSinceStarted / _xPositionChangeDelay);
-  float radiansForHeight = (yPerc * TWO_PI) + (_timeSinceStarted / _yPositionChangeDelay);
+  return new PVector(x, y);
+  /*float xPerc = (float)x / WIDTH;*/
+  /*float yPerc = (float)y / HEIGHT;*/
+  /*float radiansForWidth = (xPerc * TWO_PI) + (_timeSinceStarted / _xPositionChangeDelay);*/
+  /*float radiansForHeight = (yPerc * TWO_PI) + (_timeSinceStarted / _yPositionChangeDelay);*/
 
-  float xOffset = sin(radiansForWidth) * _maxPositionOffset;
-  float yOffset = sin(radiansForHeight) * _maxPositionOffset;
+  /*float xOffset = sin(radiansForWidth) * _maxPositionOffset;*/
+  /*float yOffset = sin(radiansForHeight) * _maxPositionOffset;*/
   
-  float xOffset2 = cos(xPerc * TWO_PI) * 5;
-  float yOffset2 = cos(yPerc * TWO_PI) * 5;
+  /*float xOffset2 = cos(xPerc * TWO_PI) * 5;*/
+  /*float yOffset2 = cos(yPerc * TWO_PI) * 5;*/
 
-  return new PVector(x+xOffset+xOffset2, y+yOffset+yOffset2);
+  /*return new PVector(x+xOffset+xOffset2, y+yOffset+yOffset2);*/
 }
 
 color getCircleColor(PVector pos)
@@ -112,21 +118,41 @@ color getCircleColor(PVector pos)
   return color(red, 0, blue);
 }
 
+float getRippleSize(PVector pos, PVector center) {
+    // Wave Constants
+    float A = _rippleAmplitude; // amplitude
+    float f = _rippleFrequency; // frequency
+    float p = -(_timeSinceStarted / _rippleDelay) * TWO_PI; // phase
+
+
+    // get t from x, y
+    float xCenter = center.x - pos.x;
+    float yCenter = center.y - pos.y;
+    float t = sqrt(xCenter*xCenter + yCenter*yCenter);
+
+    // get sizeOffset from wave shape
+    float sizeOffset = A*sin(TWO_PI*f*t + p);
+
+    return sizeOffset;
+}
+
 PVector getCircleSize(PVector circlePos, color circleColor)
 { 
-   float radiansForWidth = (((float)circlePos.x / WIDTH) * TWO_PI) + (_timeSinceStarted / _xSizeChangeDelay);
-   float radiansForHeight = (((float)circlePos.y / HEIGHT) * TWO_PI) + (_timeSinceStarted / _ySizeChangeDelay);
-   
-   float xSizeOffset = sin(radiansForWidth) * _maxSizeOffset;
-   float ySizeOffset = sin(radiansForHeight) * _maxSizeOffset;
-   
-   int maxDiff = 5;
-   if (xSizeOffset - ySizeOffset > maxDiff) {
-     ySizeOffset = xSizeOffset - maxDiff;
-   }
-   if (ySizeOffset - xSizeOffset > maxDiff) {
-     xSizeOffset = ySizeOffset - maxDiff;
-   }
-   
-   return new PVector(_defaultCircleSize + xSizeOffset, _defaultCircleSize + ySizeOffset);
+    float radiansForWidth = (((float)circlePos.x / WIDTH) * TWO_PI) + (_timeSinceStarted / _xSizeChangeDelay);
+    float radiansForHeight = (((float)circlePos.y / HEIGHT) * TWO_PI) + (_timeSinceStarted / _ySizeChangeDelay);
+
+    float xSizeOffset = sin(radiansForWidth) * _maxSizeOffset;
+    float ySizeOffset = sin(radiansForHeight) * _maxSizeOffset;
+
+    int maxDiff = 5;
+    if (xSizeOffset - ySizeOffset > maxDiff) {
+        ySizeOffset = xSizeOffset - maxDiff;
+    }
+    if (ySizeOffset - xSizeOffset > maxDiff) {
+        xSizeOffset = ySizeOffset - maxDiff;
+    }
+
+    float rippleSize = getRippleSize(circlePos, new PVector(WIDTH/2, HEIGHT/2));
+
+    return new PVector(_defaultCircleSize + xSizeOffset + rippleSize, _defaultCircleSize + ySizeOffset + rippleSize);
 }
