@@ -11,7 +11,7 @@ int _defaultCircleSize = 10;
 float _maxSizeOffset = 4;
 
 float _rippleDelay = 1000.0;
-float _rippleAmplitude = 15;  // amplitude
+float _rippleAmplitude = 5;  // amplitude
 float _rippleFrequency = 0.011; // frequency
 
 float _xSizeChangeDelay = 700.0;
@@ -152,7 +152,11 @@ PVector getCircleSize(PVector circlePos, color circleColor)
         xSizeOffset = ySizeOffset - maxDiff;
     }
 
-    float rippleSize = getRippleSize(circlePos, new PVector(WIDTH/2, HEIGHT/2));
+    float c = 400;
+    float rippleSize = getRippleSize(circlePos, new PVector((WIDTH/2) + c, HEIGHT/2));
+    rippleSize      += getRippleSize(circlePos, new PVector((WIDTH/2) - c, HEIGHT/2));
+    rippleSize      += getRippleSize(circlePos, new PVector(WIDTH/2, (HEIGHT/2 + c)));
+    rippleSize      += getRippleSize(circlePos, new PVector(WIDTH/2, (HEIGHT/2 - c)));
 
     return new PVector(_defaultCircleSize + xSizeOffset + rippleSize, _defaultCircleSize + ySizeOffset + rippleSize);
 }
