@@ -116,7 +116,8 @@ color getCircleColor(PVector pos, float circleSize)
   red += minColorBrightness;
   blue += minColorBrightness;
   
-  return color(red, circleSize*10, blue);
+  float green = 255 - circleSize*10;
+  return color(green, red, blue); // Swapped red and green channels
 }
 
 float getRippleSize(PVector pos, PVector center, float startingPhase) {
