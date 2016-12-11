@@ -26,8 +26,8 @@ int _numCirclesPastEdge = 5;
 // Circle Colors
 //////////////////////////////
 // Speed at which we cycle the green and blue channels for the circles.
-float _greenOffsetSpeed = 500.0;
-float _blueOffsetSpeed = 350.0;
+float _greenOffsetSpeed = 500.0; // Smaller == faster
+float _blueOffsetSpeed = 350.0; // Smaller == faster
 float _minColorBrightness = 65; // Minimum value for a color channel
 
 
@@ -36,17 +36,18 @@ float _minColorBrightness = 65; // Minimum value for a color channel
 //////////////////////////////
 int _defaultCircleSize = 10;
 float _maxSizeOffset = 4;
-float _xSizeChangeDelay = 700.0; // Smaller === faster
-float _ySizeChangeDelay = 530.0; // Smaller === faster
+float _xSizeChangeDelay = 700.0; // Smaller == faster
+float _ySizeChangeDelay = 530.0; // Smaller == faster
 int _maxSquashAndStretchDifference = 5; // SquashSize - StretchSize >= _maxSquashAndStretchDifference
 
 
 //////////////////////////////
 // Circle Positions
 //////////////////////////////
-float _xPositionChangeDelay = 950.0;
-float _yPositionChangeDelay = 800.0;
+float _xPositionChangeDelay = 950.0; // Smaller == faster
+float _yPositionChangeDelay = 800.0; // Smaller == faster
 float _maxPositionOffset = 65.0;
+
 
 //////////////////////////////
 // Ripple Parameters 
@@ -64,7 +65,10 @@ int _timeLastFrame;
 int _timeThisFrame;
 int _timeSinceStarted;
 
-// Project init
+
+/////////////////////////
+// Project initialization
+/////////////////////////
 void setup() 
 { 
     // Setup screen size
