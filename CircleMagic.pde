@@ -52,7 +52,7 @@ float _maxPositionOffset = 65.0;
 //////////////////////////////
 // Ripple Parameters 
 //////////////////////////////
-float _rippleSpeed = 4000.0; // Smaller === faster
+float _rippleSpeed = 4000.0; // Smaller == faster
 float _rippleAmplitude = 5;
 float _rippleFrequency = 0.011;
 
@@ -66,9 +66,7 @@ int _timeThisFrame;
 int _timeSinceStarted;
 
 
-/////////////////////////
-// Project initialization
-/////////////////////////
+// Project init
 void setup() 
 { 
     // Setup screen size
